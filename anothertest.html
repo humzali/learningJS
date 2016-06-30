@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<center>
+<h1>You can only continue if you are over 18! Very NSFW</h1>
+<h1>Please fill out this form in the correct order</h1>
+
+<p>Please tell us how old you are..</p>
+
+<input id="numb">
+
+<button type="button" onclick="verifyAge()">Verify Age</button>
+
+<p id="demo"></p>
+
+
+
+
+<p>Also please give us your name, so we can enter it in a database of all of our users!!</p> 
+
+<input id="name"> 
+
+<button type="anotherbutton" onclick="saveAndDisplayName()">Save Name</button>
+
+<p id="anotherdemo"></p>
+
+<p>Wanna know what your age multiplied by 10 is??</p> 
+
+
+<button type="andanotherbutton" onclick="multiplyAge()">Yes PLZ Tell me!!</button>
+
+
+</center>
+
+<script>
+function verifyAge() {
+    var x, text;
+
+    // Get the value of the input field with id="numb"
+    x = document.getElementById("numb").value;
+
+    // If x is Not a Number or less than one or greater than 10
+    if (isNaN(x) || x < 18) {
+        text = "You are not old enough to experience this website..";
+    } else {
+        text = "Congrats! You're golden...";
+    }
+    document.getElementById("demo").innerHTML = text;
+}
+
+
+function saveAndDisplayName() {
+    var y, moretext;
+
+    // Get the user's name 
+    y = document.getElementById("name").value;
+
+    // display name 
+    moretext = "Thanks " + y + ".";
+
+    document.getElementById("anotherdemo").innerHTML = moretext;
+} 
+
+function multiplyAge() { 
+    
+    var z, a; 
+    z = document.getElementById("numb").value;
+    a = 10*z;
+
+    alert("Hey,in 10 years you will be " + a);
+}
+
+</script>
+
+</body>
+</html>
+
