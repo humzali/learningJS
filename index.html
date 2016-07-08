@@ -4,7 +4,10 @@
 
 <div id="demo"><h2>Lets make some AJAX requests</h2></div>
 
-<button type="button" onclick="loadDoc()">Change Content</button>
+<button type="button" onclick="loadDoc()">Load Info</button>
+
+
+<p id="data"></p>
 
 
 <!-- for some reason, using src="path to js file" doesnt work with the server.. so script is in the html file -->
@@ -12,43 +15,40 @@
 <script>
 
 function loadDoc() {
-  alert("hey1")	
 
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
+  	var xhttp = new XMLHttpRequest();
+  	xhttp.onreadystatechange = function() {
   
-  	if(xhttp.readyState == 0) {
+  		if (xhttp.readyState == 4 && xhttp.status == 200) {
+		
+  			// take JSON object, turn into local object
+			var data = JSON.parse(xhttp.responseText);
+			var text = "";
+			var i;
 
-  		alert("RS0");
-  	}
-  	if(xhttp.readyState == 1) {
-  		alert("RS1");
-  	
-  	/*
-  	only needed for post request ?? 
-  	xhttp.setRequestHeader("Content-type", "application...");
-	*/
-  		
-  	}
-  	if(xhttp.readyState == 2) {
-  		alert("RS2");
-  		
-  	}
-  	if(xhttp.readyState == 3) {
-  		alert("RS3");
-  	
-  	}
+			var id = "ID:  ";
+			var name = "  Name:   ";
+			var fullname = "  Full Name:   ";	
+			var login = "  Login   ";
 
-    
-    if (xhttp.readyState == 4 && xhttp.status == 200) {
-    	alert("hey2");
-      document.getElementById("demo").innerHTML = xhttp.responseText;
-    }
-    
-  };
-  xhttp.open("GET", "https://feeds.finance.yahoo.com/rss/2.0/headline?s=yhoo&region=US&lang=en-US", true);
+			// start the parsing
+			for(i = 0; i < data.length;i++) {
+				text += id.bold() + data[i].id + name.bold() + data[i].name 
+				+ fullname.bold() + data[i].full_name + login.bold() + 
+				data[i].owner.login + "<br>";
+			}
+
+			document.getElementById("data").innerHTML = text;
+    	}	
+  
+  	};
+  
+  xhttp.open("GET",  "https://api.github.com/users/mralexgray/repos", true);
   xhttp.send();
+
 }
+
+
 
 </script>
 
@@ -56,54 +56,3 @@ function loadDoc() {
 </body>
 </html>
 
-<!-- for reference, past attempts for xhttp request 
-
-/*
-var xhr = new XMLHttpRequest();
-
-xhr.open("POST", "https://feeds.finance.yahoo.com/rss/2.0/headline?s=yhoo&region=US&lang=en-US", true);
-xhr.send();
-
-xhr.addEventListener("readystatechange", processRequest, false);
-		alert("test");
-
-function processRequest(e) {
-	
-		// check for necesary conditions 
-
-	if (xhr.readyState == 4 && xhr.status == 200) {
-
-		// alert to check if we enter the if statement.. which we do... 
-
-		alert("lol");
-
-		// but for some reason , never get this alert to work 
-		var response = JSON.parse(xhr.responseText);
-		alert(xhr.responseText);
-
-	}
-}
-*/
-
-/* another approach... didnt work */
-/*
-function xmlFun() {
-
-	var xhttp = new XMLHttpRequest(); 
-
-	xhttp.onreadystatechange = xmlFun;
-
-	xhttp.onreadystatechange = function() {
-
-		if(xhttp.readyState == 4 && xhttp.status == 200) {
-			document.getElementById("demo").innerHTML = xhttp.responseText;
-		}
-	};
-
-	xhttp.open("GET","https://feeds.finance.yahoo.com/rss/2.0/headline?s=yhoo&region=US&lang=en-US", true);
-	xhttp.send();
-
-}
-*/
-
--->
